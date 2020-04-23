@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="zn-CH">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="../static/bootstrap/css/bootstrap.min.css">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style>
+        /*导航条*/
+        .navbar_1 {
+            position: relative;
+            min-height: 50px;
+            margin-bottom: 0px;
+            border: 1px solid transparent;
+        }
+
+        /*左侧菜单栏*/
+        .left-menu {
+            /*padding: 20px;*/
+            text-align: center;
+            /*background-color: bisque;*/
+            position: fixed;
+            top: 50px;
+            bottom: 0px;
+            left: 0px;
+            width: 300px;
+
+        }
+
+        /*右侧表单*/
+        .right-content {
+            position: fixed; /*固定用*/
+            overflow: auto; /*当内容在可显示内容之外，生产自用的滚动条，与position: fixed一起用*/
+            top: 50px;
+            bottom: 0;
+            right: 0;
+            left: 300px;
+            padding: 30px;
+            padding-top: 0px;
+        }
+    </style>
+</head>
+<body>
+<script src="../static/jquery-3.3.1.js"></script>
+<script src="../static/bootstrap/js/bootstrap.min.js"></script>
+<script src="http://cdn.highcharts.com.cn/highcharts/8.0.4/highcharts.js"></script>
+
+<script src="http://cdn.highcharts.com.cn/highstock/8.0.4/highstock.js"></script>
+
+<script src="http://cdn.highcharts.com.cn/highmaps/8.0.4/highmaps.js"></script>
+
+<script src="http://cdn.highcharts.com.cn/gantt/8.0.4/highcharts-gantt.js"></script>
+<div class="container-fluid">
+    <div class="row">
+        <div class="navbar_1">
+            <ul class="nav nav-pills">
+                <li role="presentation" class="active"><a href="#">Home</a></li>
+                <li role="presentation"><a href="#">Profile</a></li>
+                <li role="presentation"><a href="#">Messages</a></li>
+                {% if session.user_info %}
+                <li class="pull-right" role="presentation"><a href="/logout">注销</a></li>
+                {% endif %}
+                <li class="pull-right" role="presentation"><a href="#">{{session.user_info.username}}</a></li>
+            </ul>
+        </div>
+        <div class="content">
+
+            <div class="left-menu col-md-3">
+                <ul class="list-group">
+                    <li class="list-group-item"><a href="/user">所有用户</a></li>
+                    <li class="list-group-item"><a href="/upload">上传文件</a></li>
+                </ul>
+            </div>
+
+            <div class="right-content col-md-9">
+                {% block content %} {% endblock %}
+            </div>
+        </div>
+
+    </div>
+
+</div>
+{% block my_js %} {% endblock %}
+</body>
+</html>

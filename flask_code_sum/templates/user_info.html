@@ -1,0 +1,71 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <div id="line-chart" style="min-width:400px;height:400px"></div>
+    <div class="timer_list" style="display: none">{{timer_list}}</div>
+    <div class="code_line_list" style="display: none">{{code_line_list}}</div>
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>用户id</th>
+                <th>行数</th>
+                <th>上传时间</th>
+            </tr>
+        </thead>
+        <tbody>
+
+            {% for code_log in code_log_list %}
+            <tr>
+                <td>{{code_log.user_id}}</td>
+                <td>{{code_log.code_line}}</td>
+                <td>{{code_log.timer}}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+
+    </table>
+
+{% endblock %}
+
+{% block my_js %}
+<script>
+    var timer_list = JSON.parse($(".timer_list").html())
+    var code_line_list = JSON.parse($(".code_line_list").html())
+    var chart = Highcharts.chart('line-chart', {
+	chart: {
+		type: 'line'
+	},
+	title: {
+		text: '代码提交记录'
+	},
+	subtitle: {
+		text: ''
+	},
+	xAxis: {
+		categories: timer_list
+	},
+	yAxis: {
+		title: {
+			text: '代码行数'
+		}
+	},
+	plotOptions: {
+		line: {
+			dataLabels: {
+				// 开启数据标签
+				enabled: true
+			},
+			// 关闭鼠标跟踪，对应的提示框、点击事件会失效
+			enableMouseTracking: false
+		}
+	},
+	series: [{
+		name: '行数',
+		data: code_line_list
+	}, ]
+});
+
+</script>
+
+
+{% endblock %}

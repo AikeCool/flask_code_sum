@@ -1,0 +1,78 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <div id="line-chart" style="min-width:400px;height:400px"></div>
+    <div class="info" style="display: none">{{info}}</div>
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>id</th>
+                <th>用户名</th>
+                <th>操作</th>
+            </tr>
+        </thead>
+        <tbody>
+
+            {% for user in user_list %}
+            <tr>
+                <td>{{user.id}}</td>
+                <td>{{user.username}}</td>
+                <td><a href="user/{{user.id}}">查看记录</a></td>
+            </tr>
+            {% endfor %}
+        </tbody>
+
+    </table>
+
+{% endblock %}
+
+{% block my_js %}
+<script>
+    var info = JSON.parse($(".info").html())
+    console.log(info)
+    var chart = Highcharts.chart('line-chart', {
+	chart: {
+		type: 'column'
+	},
+	title: {
+		text: '总量对比'
+	},
+	subtitle: {
+		text: ''
+	},
+	xAxis: {
+		type: 'category',
+		labels: {
+			rotation: -45  // 设置轴标签旋转角度
+		}
+	},
+	yAxis: {
+		min: 0,
+		title: {
+			text: '代码总量'
+		}
+	},
+	legend: {
+		enabled: false
+	},
+	tooltip: {
+		pointFormat: '代码总量: <b>{point.y:.1f} 行</b>'
+	},
+	series: [{
+		name: '',
+		data: info,
+		dataLabels: {
+			enabled: true,
+			rotation: -90,
+			color: '#FFFFFF',
+			align: 'right',
+			format: '{point.y:.1f}', // :.1f 为保留 1 位小数
+			y: 10
+		}
+	}]
+});
+
+</script>
+
+
+{% endblock %}
